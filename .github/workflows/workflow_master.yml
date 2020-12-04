@@ -5,15 +5,13 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ master ]
+    branches: master
   pull_request:
-    branches: [ master ]
+    branches: master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 13
@@ -21,24 +19,7 @@ jobs:
       with:
         java-version: 13
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-  
-  create_release:
-    name: Create a Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.event.head_commit.message }}
-          release_name: Release ${{ github.event.head_commit.message }}
-          draft: false
-          prerelease: false
+      run: mvn -B package --file pom.xml 
           
   push_to_dockerhub:
     name: Push Docker image to Docker Hub
@@ -54,4 +35,20 @@ jobs:
           repository: lorenzoo/besturingsystemen
           tag_with_ref: true 
           tags: latest
-       
+   
+  create_Release:
+    name: Create a Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.event.head_commit.message }}
+          release_name: Release ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
