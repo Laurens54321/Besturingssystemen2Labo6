@@ -23,7 +23,7 @@ public class DriverHelper {
                 driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
                 return driver;
 
-            } catch (UnreachableBrowserException e) {
+            } catch (Exception e) {
                 WebDriverManager.chromedriver().setup();
                 ChromeDriver driver;
                 driver = new ChromeDriver();
