@@ -49,5 +49,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: lorenzoo/besturingsystemen
           tag_with_ref: true
+          tag_name: ${{ github.event.head_commit.message }} 
           tags: latest
        
